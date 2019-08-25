@@ -1,4 +1,4 @@
-package _06_Snake;
+package TrainGame;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,9 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 // Go through the methods and complete the steps in this class
-// and the Snake class
+// and the train class
 
-public class _00_SnakeGame implements ActionListener, KeyListener {
+public class TrainGame implements ActionListener, KeyListener {
 	public static final Color BORDER_COLOR = Color.WHITE;
 	public static final Color BACKGROUND_COLOR = Color.BLACK;
 	public static final Color FOOD_COLOR = Color.RED;
@@ -31,16 +31,16 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 	private JFrame window;
 	private JPanel panel;
 
-	private Snake snake;
+	private Train train;
 
 	private Timer timer;
 
 	private Location foodLocation;
 
-	public _00_SnakeGame() {
-		snake = new Snake(new Location(WIDTH / 2, HEIGHT / 2));
+	public TrainGame() {
+		train = new Train(new Location(WIDTH / 2, HEIGHT / 2));
 
-		window = new JFrame("Snake");
+		window = new JFrame("train");
 		panel = new JPanel() {
 			private static final long serialVersionUID = 1L;
 
@@ -52,9 +52,9 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 				g2.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 				g2.setColor(FOOD_COLOR);
-				g2.drawOval(foodLocation.x * WINDOW_SCALE, foodLocation.y * WINDOW_SCALE, Snake.BODY_SIZE,
-						Snake.BODY_SIZE);
-				snake.draw(g);
+				g2.drawOval(foodLocation.x * WINDOW_SCALE, foodLocation.y * WINDOW_SCALE, Train.BODY_SIZE,
+						Train.BODY_SIZE);
+				train.draw(g);
 			}
 		};
 
@@ -75,10 +75,10 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 
 	public void startGame() {
 		// 1. Save the instructions for the game in the following string variable.
-		String instructions = "Welcome to Samuel Snake! (try not to die lol)";
+		String instructions = "Welcome to Samuel train! (try not to die lol)";
 
 		String[] options = new String[] { "GOD", "BOSS", "noob" };
-		int input = JOptionPane.showOptionDialog(null, instructions, "S Snake", 0, -1, null, options, 0);
+		int input = JOptionPane.showOptionDialog(null, instructions, "S train", 0, -1, null, options, 0);
 
 		String choice = options[input];
 
@@ -87,13 +87,13 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 		// of the game. The smaller the number, the faster it goes.
 		switch (choice) {
 		case "GOD":
-			timer.setDelay(1);
+			timer.setDelay(10);
 			break;
 		case "BOSS":
-			timer.setDelay(5);
+			timer.setDelay(30);
 			break;
 		case "noob":
-			timer.setDelay(10);
+			timer.setDelay(50);
 			break;
 		}
 		// 3. start the timer
@@ -101,7 +101,7 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 	}
 
 	public static void main(String[] args) {
-		new _00_SnakeGame();
+		new TrainGame();
 	}
 
 	@Override
@@ -116,24 +116,24 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 		// to determine which key was pressed.
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
-			snake.setDirection(Direction.UP);
+			train.setDirection(Direction.UP);
 			break;
 		case KeyEvent.VK_DOWN:
-			snake.setDirection(Direction.DOWN);
+			train.setDirection(Direction.DOWN);
 			break;
 		case KeyEvent.VK_LEFT:
-			snake.setDirection(Direction.LEFT);
+			train.setDirection(Direction.LEFT);
 			break;
 		case KeyEvent.VK_RIGHT:
-			snake.setDirection(Direction.RIGHT);
+			train.setDirection(Direction.RIGHT);
 			break;
 		case KeyEvent.VK_SPACE:
-			snake.feed();
+			train.feed();
 		}
-		// if an arrow key is pressed, set the snake's
+		// if an arrow key is pressed, set the train's
 		// direction accordingly
 
-		// if the space key is pressed, call the snake's feed method
+		// if the space key is pressed, call the train's feed method
 
 	}
 
@@ -143,9 +143,9 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 		Location l = new Location(r.nextInt(WIDTH), r.nextInt(HEIGHT));
 		// 2. set the foodLocation variable equal to the Location object you just
 		// created.
-		// use the snake's isLocationOnSnake method to make sure you don't put the food
-		// on the snake
-		if (!snake.isLocationOnSnake(l)) {
+		// use the train's isLocationOntrain method to make sure you don't put the food
+		// on the train
+		if (!train.isLocationOnTrain(l)) {
 			foodLocation = l;
 		}
 	}
@@ -154,21 +154,21 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 
 		// 1. stop the timer
 		timer.stop();
-		// 2. tell the user their snake is dead
+		// 2. tell the user their train is dead
 		JOptionPane.showMessageDialog(null,
-				"Your snake died. I'm very sorry. If you need mental support, call +1 619-468-5480 or visit http://tiny.cc/deadsnake",
+				"Your train died. I'm very sorry. If you need mental support, call +1 619-468-5480 or visit http://tiny.cc/deadtrain",
 				"Game Over", JOptionPane.ERROR_MESSAGE);
 		// 3. ask them if they want to play again.
-		int play = JOptionPane.showOptionDialog(null, "Do u want to bring snake back to life and play again?",
+		int play = JOptionPane.showOptionDialog(null, "Do u want to bring train back to life and play again?",
 				"Play Again", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 		if (play == 0) {
-			snake.reset(new Location(2, 2));
+			train.reset(new Location(2, 2));
 			foodLocation = new Location(5, 5);
 		} else {
 			System.exit(1000);
 		}
 		// 4. if they want to play again
-		// reset the snake and the food and start the timer
+		// reset the train and the food and start the timer
 		// else, exit the game
 
 	}
@@ -180,17 +180,17 @@ public class _00_SnakeGame implements ActionListener, KeyListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//1. update the snake
-		snake.update();
-		//2. if the snake is colliding with its own body 
-		//   or if the snake is out of bounds, call gameOver
-		if(snake.isHeadCollidingWithBody() || snake.isOutOfBounds()) {
+		//1. update the train
+		train.update();
+		//2. if the train is colliding with its own body 
+		//   or if the train is out of bounds, call gameOver
+		if(train.isHeadCollidingWithBody() || train.isOutOfBounds()) {
 			gameOver();
 		}
 		//3. if the location of the head is equal to the location of the food,
-		// 	 feed the snake and set the food location
-		if(snake.getHeadLocation() == foodLocation) {
-			snake.feed();
+		// 	 feed the train and set the food location
+		if(train.getHeadLocation() == foodLocation) {
+			train.feed();
 			setFoodLocation();
 		}
 		//4. call panel.repaint();

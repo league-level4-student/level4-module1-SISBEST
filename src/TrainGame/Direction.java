@@ -1,4 +1,4 @@
-package _06_Snake;
+package TrainGame;
 
 public enum Direction {
 	UP, DOWN, LEFT, RIGHT

@@ -1,12 +1,12 @@
-package _06_Snake;
+package TrainGame;
 
 import java.awt.Graphics;
 
-public class SnakeSegment {
+public class TrainCar {
 	private Location location;
 	private int size;
 
-	public SnakeSegment(Location loc, int size) {
+	public TrainCar(Location loc, int size) {
 		this.location = loc;
 		this.size = size;
 	}
@@ -20,7 +20,7 @@ public class SnakeSegment {
 	}
 	
 	public void draw(Graphics g) {
-		g.setColor(Snake.SNAKE_COLOR);
+		g.setColor(Train.SNAKE_COLOR);
 		g.drawRect(location.x * size, location.y * size, size, size);;
 	}
 }

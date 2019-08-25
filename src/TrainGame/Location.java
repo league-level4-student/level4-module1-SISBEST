@@ -1,4 +1,4 @@
-package _06_Snake;
+package TrainGame;
 
 public class Location {
 	public int x;
