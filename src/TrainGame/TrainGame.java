@@ -15,13 +15,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-// Go through the methods and complete the steps in this class
-// and the train class
+
+
 
 public class TrainGame implements ActionListener, KeyListener {
-	public static final Color BORDER_COLOR = Color.WHITE;
-	public static final Color BACKGROUND_COLOR = Color.BLACK;
-	public static final Color FOOD_COLOR = Color.RED;
+	public static final Color BORDER_COLOR = Color.ORANGE;
+	public static final Color BACKGROUND_COLOR = Color.CYAN;
+	public static final Color FOOD_COLOR = Color.ORANGE;
 	public static final int WIDTH = 15;
 	public static final int HEIGHT = 12;
 	public static final int WINDOW_SCALE = 50;
@@ -40,7 +40,7 @@ public class TrainGame implements ActionListener, KeyListener {
 	public TrainGame() {
 		train = new Train(new Location(WIDTH / 2, HEIGHT / 2));
 
-		window = new JFrame("train");
+		window = new JFrame("Samuel Train");
 		panel = new JPanel() {
 			private static final long serialVersionUID = 1L;
 
@@ -74,29 +74,29 @@ public class TrainGame implements ActionListener, KeyListener {
 	}
 
 	public void startGame() {
-		// 1. Save the instructions for the game in the following string variable.
-		String instructions = "Welcome to Samuel train! (try not to die lol)";
+		
+		String instructions = "Welcome to S Train! Use the arrow keys to pick up orange passengers and add them to your train. To crash your train (if it gets hard to control), click esc.";
 
-		String[] options = new String[] { "GOD", "BOSS", "noob" };
-		int input = JOptionPane.showOptionDialog(null, instructions, "S train", 0, -1, null, options, 0);
+		String[] options = new String[] { "Level 3", "Level 2", "Level 1" };
+		int input = JOptionPane.showOptionDialog(null, instructions, "S Train", 0, -1, null, options, 0);
 
 		String choice = options[input];
 
-		// 2. Use a switch statement to determine which difficulty was chosen.
-		// Use timer.setDelay(delay) with different numbers to change the speed
-		// of the game. The smaller the number, the faster it goes.
+		
+		
+		
 		switch (choice) {
-		case "GOD":
-			timer.setDelay(10);
+		case "Level 3":
+			timer.setDelay(40);
 			break;
-		case "BOSS":
-			timer.setDelay(30);
-			break;
-		case "noob":
+		case "Level 2":
 			timer.setDelay(50);
 			break;
+		case "Level 1":
+			timer.setDelay(100);
+			break;
 		}
-		// 3. start the timer
+		
 		timer.start();
 	}
 
@@ -106,14 +106,14 @@ public class TrainGame implements ActionListener, KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// 1. Use a switch statement on e.getKeyCode()
-		// to determine which key was pressed.
+		
+		
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			train.setDirection(Direction.UP);
@@ -127,24 +127,26 @@ public class TrainGame implements ActionListener, KeyListener {
 		case KeyEvent.VK_RIGHT:
 			train.setDirection(Direction.RIGHT);
 			break;
-		case KeyEvent.VK_SPACE:
-			train.feed();
+		
+		case KeyEvent.VK_ESCAPE:
+			gameOver();
+			break;
 		}
-		// if an arrow key is pressed, set the train's
-		// direction accordingly
+		
+		
 
-		// if the space key is pressed, call the train's feed method
+		
 
 	}
 
 	private void setFoodLocation() {
-		// 1. Create a new Location object that is set to a random location
+		
 		Random r = new Random();
 		Location l = new Location(r.nextInt(WIDTH), r.nextInt(HEIGHT));
-		// 2. set the foodLocation variable equal to the Location object you just
-		// created.
-		// use the train's isLocationOntrain method to make sure you don't put the food
-		// on the train
+		
+		
+		
+		
 		if (!train.isLocationOnTrain(l)) {
 			foodLocation = l;
 		}
@@ -152,48 +154,53 @@ public class TrainGame implements ActionListener, KeyListener {
 
 	private void gameOver() {
 
-		// 1. stop the timer
+		
 		timer.stop();
-		// 2. tell the user their train is dead
+		
 		JOptionPane.showMessageDialog(null,
-				"Your train died. I'm very sorry. If you need mental support, call +1 619-468-5480 or visit http://tiny.cc/deadtrain",
+				"Your train crashed. I'm very sorry. But that's OK, it was just a test train. (STILL, WE HAVE TO BUY NEW S70S NOW! THANKS FOR NOTHING!)",
 				"Game Over", JOptionPane.ERROR_MESSAGE);
-		// 3. ask them if they want to play again.
+		
 		int play = JOptionPane.showOptionDialog(null, "Do u want to bring train back to life and play again?",
 				"Play Again", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 		if (play == 0) {
+			timer.start();
 			train.reset(new Location(2, 2));
 			foodLocation = new Location(5, 5);
 		} else {
 			System.exit(1000);
 		}
-		// 4. if they want to play again
-		// reset the train and the food and start the timer
-		// else, exit the game
+		
+		
+		
 
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//1. update the train
+		
 		train.update();
-		//2. if the train is colliding with its own body 
-		//   or if the train is out of bounds, call gameOver
-		if(train.isHeadCollidingWithBody() || train.isOutOfBounds()) {
+		
+		
+		if(train.isHeadCollidingWithBody()) {
 			gameOver();
 		}
-		//3. if the location of the head is equal to the location of the food,
-		// 	 feed the train and set the food location
-		if(train.getHeadLocation() == foodLocation) {
+		if(train.isOutOfBounds()) {
+			gameOver();
+		}
+		System.out.println("Train Size: " + train.train.size());
+		
+		
+		if(train.getHeadLocation().equals(foodLocation)) {
 			train.feed();
 			setFoodLocation();
 		}
-		//4. call panel.repaint();
+		
 		panel.repaint();
 	}
 }
