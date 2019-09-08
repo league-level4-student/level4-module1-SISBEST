@@ -8,8 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,19 +29,28 @@ public class TrainGame implements ActionListener, KeyListener {
 	public static final int WINDOW_SCALE = 50;
 	public static final int WINDOW_WIDTH = WINDOW_SCALE * WIDTH;
 	public static final int WINDOW_HEIGHT = WINDOW_SCALE * HEIGHT;
-
 	private JFrame window;
 	private JPanel panel;
-
 	private Train train;
-
 	private Timer timer;
-
 	private Location foodLocation;
+	public static BufferedImage image;
+	public static boolean needImage = true;
+	public static boolean gotImage = false;	
+	void loadImage(String imageFile) {
+	    if (needImage) {
+	        try {
+	            image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+		    gotImage = true;
+	        } catch (Exception e) {
+	        	e.printStackTrace();
+	        }
+	        needImage = false;
+	    }
+	}
 
 	public TrainGame() {
 		train = new Train(new Location(WIDTH / 2, HEIGHT / 2));
-
 		window = new JFrame("Samuel Train");
 		panel = new JPanel() {
 			private static final long serialVersionUID = 1L;
@@ -50,10 +61,17 @@ public class TrainGame implements ActionListener, KeyListener {
 
 				g2.setColor(BACKGROUND_COLOR);
 				g2.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-				g2.setColor(FOOD_COLOR);
-				g2.drawOval(foodLocation.x * WINDOW_SCALE, foodLocation.y * WINDOW_SCALE, Train.BODY_SIZE,
-						Train.BODY_SIZE);
+				if (needImage) {
+					Random r = new Random();
+				    loadImage("/TrainGame/com" + r.nextInt(12) + ".png");
+				}
+				if (gotImage) {
+					g.drawImage(image, foodLocation.x * WINDOW_SCALE, foodLocation.y * WINDOW_SCALE, Train.BODY_SIZE, Train.BODY_SIZE*2, null);
+				} else {
+					g2.setColor(FOOD_COLOR);
+					g2.drawOval(foodLocation.x * WINDOW_SCALE, foodLocation.y * WINDOW_SCALE, Train.BODY_SIZE, Train.BODY_SIZE);
+				
+				}
 				train.draw(g);
 			}
 		};

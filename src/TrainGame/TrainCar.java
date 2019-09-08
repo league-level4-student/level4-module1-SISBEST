@@ -13,7 +13,6 @@ public class TrainCar {
 	private int size;
 	void loadImage(String imageFile) {
 	    if (needImage) {
-	    	System.out.println("GETTING IMAGE!");
 	        try {
 	            image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
 		    gotImage = true;
