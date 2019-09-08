@@ -72,13 +72,12 @@ public class TrainGame implements ActionListener, KeyListener {
 
 		startGame();
 	}
-
 	public void startGame() {
 		
 		String instructions = "Welcome to S Train! Use the arrow keys to pick up orange passengers and add them to your train. To crash your train (if it gets hard to control), click esc.";
 
 		String[] options = new String[] { "Level 3", "Level 2", "Level 1" };
-		int input = JOptionPane.showOptionDialog(null, instructions, "S Train", 0, -1, null, options, 0);
+		int input = JOptionPane.showOptionDialog(null, instructions, "Samuel Train", 0, -1, null, options, 0);
 
 		String choice = options[input];
 

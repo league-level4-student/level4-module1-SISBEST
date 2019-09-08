@@ -2,6 +2,7 @@ package TrainGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Train {
@@ -126,7 +127,12 @@ public class Train {
 
 	public void draw(Graphics g) {
 		for (TrainCar s : train) {
-			s.draw(g);
+			try {
+				s.draw(g);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
