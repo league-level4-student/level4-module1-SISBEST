@@ -94,10 +94,10 @@ public class Train {
 		
 		
 		
-		if (head.getLocation().x > 15 || head.getLocation().x < 0) {
+		if (head.getLocation().x > 30 || head.getLocation().x < 0) {
 			return true;
 		}
-		if (head.getLocation().y > 12 || head.getLocation().y < 0) {
+		if (head.getLocation().y > 20 || head.getLocation().y < 0) {
 			return true;
 		}
 		return false;
